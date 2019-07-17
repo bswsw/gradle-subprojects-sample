@@ -3,12 +3,12 @@ pluginManagement {
         gradlePluginPortal()
     }
 }
-rootProject.name = "subproject-sample"
+rootProject.name = "gradle-subprojects-sample"
 
 include(
-    "server",
+    "grpc-server",
     "protocol",
-    "client"
+    "api-server"
 )
 
 rootProject.children.forEach {
