@@ -1,26 +1,17 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import org.springframework.boot.gradle.tasks.bundling.BootJar
-
 plugins {
-    base
+    id("org.springframework.boot") version "2.1.6.RELEASE" apply false
 
-    id("io.spring.dependency-management") version "1.0.8.RELEASE"
-    id("org.springframework.boot") version "2.1.6.RELEASE"
-
-    val kotlinVersion = "1.3.40"
+    val kotlinVersion = "1.3.41"
 
     kotlin("jvm") version kotlinVersion
     kotlin("kapt") version kotlinVersion
-    kotlin("plugin.spring") version kotlinVersion
-    kotlin("plugin.jpa") version kotlinVersion
-    kotlin("plugin.noarg") version kotlinVersion
-    kotlin("plugin.allopen") version kotlinVersion
+    kotlin("plugin.spring") version kotlinVersion apply false
+    kotlin("plugin.jpa") version kotlinVersion apply false
+    kotlin("plugin.noarg") version kotlinVersion apply false
+    kotlin("plugin.allopen") version kotlinVersion apply false
 }
 
 allprojects {
-    group = "com.baegoon"
-    version = "0.0.1-SNAPSHOT"
-
     repositories {
         mavenCentral()
     }
@@ -36,40 +27,50 @@ subprojects {
         plugin("io.spring.dependency-management")
         plugin("org.springframework.boot")
         plugin("kotlin")
+        plugin("kotlin-kapt")
         plugin("kotlin-spring")
+        plugin("kotlin-jpa")
+        plugin("kotlin-noarg")
+        plugin("kotlin-allopen")
         plugin("idea")
     }
 
-    java.sourceCompatibility = JavaVersion.VERSION_1_8
+    group = "com.baegoon"
+    version = "0.0.1-SNAPSHOT"
+//    java.sourceCompatibility = JavaVersion.VERSION_1_8
 
     val ktlint by configurations.creating
 
     dependencies {
+        implementation("org.springframework.boot:spring-boot-starter")
+
+        compileOnly("org.springframework.boot:spring-boot-configuration-processor")
+        kapt("org.springframework.boot:spring-boot-configuration-processor")
+
         implementation(kotlin("reflect"))
         implementation(kotlin("stdlib-jdk8"))
+        implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+
+        testImplementation("org.springframework.boot:spring-boot-starter-test")
 
         ktlint("com.pinterest:ktlint:$ktlintVersion")
     }
 
     tasks {
-        withType<BootJar> {
-            enabled = false
-        }
-        withType<Jar> {
-            enabled = true
-        }
-
-        withType<GradleBuild> {
-            dependsOn("clean")
-        }
-
-        withType<KotlinCompile> {
+        compileKotlin {
             kotlinOptions {
                 freeCompilerArgs = listOf("-Xjsr305=strict")
                 jvmTarget = "1.8"
             }
 
             dependsOn("ktlint")
+        }
+
+        compileTestKotlin {
+            kotlinOptions {
+                freeCompilerArgs = listOf("-Xjsr305=strict")
+                jvmTarget = "1.8"
+            }
         }
 
         register<JavaExec>("ktlint") {

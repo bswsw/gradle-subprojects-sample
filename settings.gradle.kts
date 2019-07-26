@@ -6,8 +6,10 @@ pluginManagement {
 rootProject.name = "gradle-subprojects-sample"
 
 include(
-    "grpc-server",
+    "domain",
     "protocol",
+    "env",
+    "grpc-server",
     "api-server"
 )
 

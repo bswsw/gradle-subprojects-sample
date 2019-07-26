@@ -1,4 +1,4 @@
-package com.baegoon.client
+package com.baegoon.api.controller
 
 import com.baegoon.proto.greeting.GreetingGrpc
 import com.baegoon.proto.greeting.GreetingRequest
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController
 class GreetingController {
 
     private val channel = ManagedChannelBuilder
-        .forAddress("localhost", 6565)
+        .forAddress("localhost", 1234)
         .usePlaintext()
         .build()
 

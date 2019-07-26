@@ -1,4 +1,4 @@
-package com.baegoon.server
+package com.baegoon.grpc
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication

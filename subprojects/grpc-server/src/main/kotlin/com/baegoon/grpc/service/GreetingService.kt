@@ -1,4 +1,4 @@
-package com.baegoon.server
+package com.baegoon.grpc.service
 
 import com.baegoon.proto.greeting.GreetingGrpc
 import com.baegoon.proto.greeting.GreetingRequest
