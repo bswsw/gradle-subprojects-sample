@@ -45,9 +45,11 @@ subprojects {
         implementation("org.springframework.boot:spring-boot-starter")
         compileOnly("org.springframework.boot:spring-boot-configuration-processor")
         kapt("org.springframework.boot:spring-boot-configuration-processor")
+
         implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
         implementation(kotlin("reflect"))
         implementation(kotlin("stdlib-jdk8"))
+
         testImplementation("org.springframework.boot:spring-boot-starter-test")
         ktlint("com.pinterest:ktlint:$ktlintVersion")
     }
