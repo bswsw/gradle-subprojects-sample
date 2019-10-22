@@ -1,7 +1,7 @@
 plugins {
-    id("org.springframework.boot") version "2.1.6.RELEASE" apply false
+    id("org.springframework.boot") version "2.1.8.RELEASE" apply false
 
-    val kotlinVersion = "1.3.41"
+    val kotlinVersion = "1.3.50"
 
     kotlin("jvm") version kotlinVersion
     kotlin("kapt") version kotlinVersion
@@ -9,6 +9,8 @@ plugins {
     kotlin("plugin.jpa") version kotlinVersion apply false
     kotlin("plugin.noarg") version kotlinVersion apply false
     kotlin("plugin.allopen") version kotlinVersion apply false
+
+    idea
 }
 
 allprojects {
@@ -17,9 +19,9 @@ allprojects {
     }
 }
 
-val grpcStarterVersion by extra { "3.3.0" }
-val protobufVersion by extra { "3.7.1" }
-val grpcVersion by extra { "1.21.0" }
+val grpcStarterVersion by extra { "3.4.3" }
+val protobufVersion by extra { "3.9.2" }
+val grpcVersion by extra { "1.24.0" }
 val ktlintVersion by extra { "0.33.0" }
 
 subprojects {
@@ -37,9 +39,8 @@ subprojects {
 
     group = "com.baegoon"
     version = "0.0.1-SNAPSHOT"
-//    java.sourceCompatibility = JavaVersion.VERSION_1_8
 
-    val ktlint by configurations.creating
+    val ktlintDependency by configurations.creating
 
     dependencies {
         implementation("org.springframework.boot:spring-boot-starter")
@@ -51,17 +52,25 @@ subprojects {
         implementation(kotlin("stdlib-jdk8"))
 
         testImplementation("org.springframework.boot:spring-boot-starter-test")
-        ktlint("com.pinterest:ktlint:$ktlintVersion")
+
+        ktlintDependency("com.pinterest:ktlint:$ktlintVersion")
     }
 
     tasks {
+        val ktlint by registering(JavaExec::class) {
+            classpath = ktlintDependency
+            main = "com.pinterest.ktlint.Main"
+            args = listOf("src/**/*.kt")
+            description = "Check Kotlin code style."
+        }
+
         compileKotlin {
             kotlinOptions {
                 freeCompilerArgs = listOf("-Xjsr305=strict")
                 jvmTarget = "1.8"
             }
 
-            dependsOn("ktlint")
+            dependsOn(ktlint)
         }
 
         compileTestKotlin {
@@ -69,13 +78,6 @@ subprojects {
                 freeCompilerArgs = listOf("-Xjsr305=strict")
                 jvmTarget = "1.8"
             }
-        }
-
-        register<JavaExec>("ktlint") {
-            classpath = ktlint
-            main = "com.pinterest.ktlint.Main"
-            args = listOf("src/**/*.kt")
-            description = "Check Kotlin code style."
         }
     }
 }
