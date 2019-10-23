@@ -8,3 +8,4 @@ insert_final_newline=true
 max_line_length=off
 indent_style=space
 charset=utf-8
+disabled_rules=import-ordering

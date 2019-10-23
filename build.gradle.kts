@@ -20,9 +20,9 @@ allprojects {
 }
 
 val grpcStarterVersion by extra { "3.4.3" }
-val protobufVersion by extra { "3.9.2" }
+val protobufVersion by extra { "3.10.0" }
 val grpcVersion by extra { "1.24.0" }
-val ktlintVersion by extra { "0.33.0" }
+val ktlintVersion by extra { "0.35.0" }
 
 subprojects {
     apply {
@@ -62,6 +62,13 @@ subprojects {
             main = "com.pinterest.ktlint.Main"
             args = listOf("src/**/*.kt")
             description = "Check Kotlin code style."
+        }
+
+        val ktlintFormat by registering(JavaExec::class) {
+            classpath = ktlintDependency
+            main = "com.pinterest.ktlint.Main"
+            args = listOf("-F", "src/**/*.kt")
+            description = "Fix Kotlin code style deviations."
         }
 
         compileKotlin {

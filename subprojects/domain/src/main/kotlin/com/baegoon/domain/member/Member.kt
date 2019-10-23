@@ -7,11 +7,9 @@ import javax.persistence.Entity
 import javax.persistence.ManyToOne
 
 @Entity
-class Member : BaseEntity() {
-
+class Member(
     @ManyToOne
-    var team: Team = Team()
-
+    var team: Team,
     @Column(name = "member_name", nullable = false)
-    var name: String = ""
-}
+    var name: String
+) : BaseEntity()

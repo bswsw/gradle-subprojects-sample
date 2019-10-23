@@ -4,7 +4,6 @@ import com.baegoon.api.dto.MemberRequest
 import com.baegoon.domain.member.Member
 import com.baegoon.domain.member.MemberRepository
 import com.baegoon.domain.team.TeamRepository
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
@@ -18,15 +17,9 @@ import javax.persistence.EntityNotFoundException
 @RestController
 @RequestMapping("/members")
 class MemberController(
-//    private val teamRepository: TeamRepository,
-//    private val memberRepository: MemberRepository
+    private val teamRepository: TeamRepository,
+    private val memberRepository: MemberRepository
 ) {
-
-    @Autowired
-    private lateinit var teamRepository: TeamRepository
-
-    @Autowired
-    private lateinit var memberRepository: MemberRepository
 
     @GetMapping
     fun index(): ResponseEntity<*> {
@@ -35,12 +28,10 @@ class MemberController(
     }
 
     @GetMapping("/{id}")
-    fun inquire(@PathVariable id: Long): ResponseEntity<*> {
-        val member = this.memberRepository.findById(id).orElseThrow {
-            EntityNotFoundException("존재하지 않는 멤버 입니다.")
-        }
-
-        return ResponseEntity.ok(member)
+    fun inquire(@PathVariable("id") member: Member?): ResponseEntity<*> {
+        return member?.let {
+            ResponseEntity.ok(member)
+        } ?: throw EntityNotFoundException("존재하지 않는 멤버 입니다.")
     }
 
     @PostMapping
@@ -49,10 +40,10 @@ class MemberController(
             ?: throw EntityNotFoundException("존재하지 않는 팀 입니다.")
 
         val member = this.memberRepository.save(
-            Member().apply {
-                this.team = team
-                this.name = request.memberName
-            }
+            Member(
+                team = team,
+                name = request.memberName
+            )
         )
 
         val selfLink = linkTo(javaClass).slash(member.id).toUri()

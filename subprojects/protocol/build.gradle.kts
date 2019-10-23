@@ -6,7 +6,7 @@ import com.google.protobuf.gradle.protobuf
 import com.google.protobuf.gradle.protoc
 
 plugins {
-    id("com.google.protobuf") version "0.8.8"
+    id("com.google.protobuf") version "0.8.10"
 }
 
 val protobufVersion: String by rootProject.extra
