@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.baegoon.proto.member";
+option java_outer_classname = "MemberProto";
+
+package com.baegoon.proto.member;
+
+import "google/protobuf/timestamp.proto";
+import "Rule.proto";
+
+enum MemberTypeProto {
+    BASIC = 0;
+    PREMIUM = 1;
+}
+
+message Address {
+    string zipcode = 1[(rule.max_length) = 6, (rule.min_length) = 5];
+    string address1 = 2;
+    string address2 = 3;
+}
+
+message MemberRegisterRequestProto {
+    MemberTypeProto member_type = 1;
+    string name = 2[(rule.max_length) = 3];
+    string email = 3;
+    string password = 4;
+    int32 back_number = 5[(rule.max) = 10];
+    google.protobuf.Timestamp birth_date = 6;
+    Address address = 7;
+}
+
+message MemberRegisterResponseProto {
+    int64 member_id = 1;
+    string name = 2;
+    int32 back_number = 3;
+    google.protobuf.Timestamp birth_date = 4;
+}
+
+service Member {
+    rpc Register (MemberRegisterRequestProto) returns (MemberRegisterResponseProto);
+}
