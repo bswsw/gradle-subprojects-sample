@@ -3,6 +3,7 @@ package com.baegoon.api.controller
 import com.baegoon.api.dto.MemberRequest
 import com.baegoon.domain.member.Member
 import com.baegoon.domain.member.MemberRepository
+import com.baegoon.domain.member.MemberType
 import com.baegoon.domain.team.TeamRepository
 import org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo
 import org.springframework.http.ResponseEntity
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
+import java.time.LocalDate
 import javax.persistence.EntityNotFoundException
 
 @RestController
@@ -42,7 +44,11 @@ class MemberController(
         val member = this.memberRepository.save(
             Member(
                 team = team,
-                name = request.memberName
+                memberType = MemberType.BASIC,
+                name = request.memberName,
+                email = "test@gmail.com",
+                backNumber = 10,
+                birthDate = LocalDate.now()
             )
         )
 
