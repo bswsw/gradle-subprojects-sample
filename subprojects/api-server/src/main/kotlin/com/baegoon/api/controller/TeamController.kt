@@ -37,9 +37,7 @@ class TeamController(
     @PostMapping
     fun create(@RequestBody request: TeamRequest): ResponseEntity<*> {
         val team = this.teamRepository.save(
-            Team().apply {
-                this.name = request.teamName
-            }
+            Team(request.teamName)
         )
 
         val selfLink = linkTo(javaClass).slash(team.id).toUri()

@@ -5,8 +5,7 @@ import javax.persistence.Column
 import javax.persistence.Entity
 
 @Entity
-class Team : BaseEntity() {
-
+class Team(
     @Column(name = "team_name", nullable = false, unique = true)
     var name: String = ""
-}
+) : BaseEntity()

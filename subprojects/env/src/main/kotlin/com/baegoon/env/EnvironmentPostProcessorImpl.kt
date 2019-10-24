@@ -19,9 +19,9 @@ class EnvironmentPostProcessorImpl : EnvironmentPostProcessor, ApplicationListen
     private val ymlLoader = YamlPropertySourceLoader()
 
     override fun postProcessEnvironment(environment: ConfigurableEnvironment, application: SpringApplication) {
-        log.error("asdsadsadsadsadsadsadasdsadasdasd")
         this.moduleNames.forEach {
             this.loadYml(it)?.let { propertySource ->
+                log.info("propertySource : $propertySource")
                 environment.propertySources.addLast(propertySource)
             }
         }
