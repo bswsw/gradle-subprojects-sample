@@ -1,3 +1,4 @@
 package com.baegoon.protocol.exception
 
-class ProtoValidationException(fieldName: String, description: String) : RuntimeException("$fieldName : $description")
+class ProtoValidationException(fieldName: String, fieldValue: Any, message: String) :
+    RuntimeException("$fieldName : $message ($fieldValue)")

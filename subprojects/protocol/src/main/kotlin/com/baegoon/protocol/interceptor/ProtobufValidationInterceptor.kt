@@ -1,10 +1,7 @@
 package com.baegoon.protocol.interceptor
 
 import com.baegoon.protocol.exception.ProtoValidationException
-import com.baegoon.protocol.rule.Rule
-import com.baegoon.protocol.validator.MaxLengthValidator
-import com.baegoon.protocol.validator.MaxValidator
-import com.baegoon.protocol.validator.MinLengthValidator
+import com.baegoon.protocol.validation.ValidationContext
 import com.google.protobuf.Descriptors
 import com.google.protobuf.GeneratedMessageV3
 import io.grpc.ForwardingServerCallListener
@@ -15,12 +12,6 @@ import io.grpc.ServerInterceptor
 import io.grpc.Status
 
 class ProtobufValidationInterceptor : ServerInterceptor {
-
-    private val validationRules = mapOf(
-        Rule.maxLength.descriptor to MaxLengthValidator(),
-        Rule.minLength.descriptor to MinLengthValidator(),
-        Rule.max.descriptor to MaxValidator()
-    )
 
     override fun <ReqT : Any, RespT : Any> interceptCall(
         call: ServerCall<ReqT, RespT>,
@@ -53,16 +44,23 @@ class ProtobufValidationInterceptor : ServerInterceptor {
             this.validateField(fieldDescriptor.name, fieldValue, fieldDescriptor.options.allFields)
 
             if (fieldValue is GeneratedMessageV3) {
-                validateMessage(fieldValue)
+                this.validateMessage(fieldValue)
                 return@forEach
             }
         }
     }
 
-    @Throws(ProtoValidationException::class)
     private fun validateField(fieldName: String, fieldValue: Any, fieldRules: Map<Descriptors.FieldDescriptor, Any>) {
         fieldRules.entries.forEach {
-            validationRules[it.key]?.validate(fieldName, fieldValue, it)
+            val isValidated = ValidationContext.getValidator(it.key)?.validate(fieldName, fieldValue, it) ?: true
+
+            if (!isValidated) {
+                throw ProtoValidationException(
+                    fieldName = fieldName,
+                    fieldValue = fieldValue,
+                    message = ValidationContext.getErrorMessage(it) ?: "유효하지 않은 값입니다."
+                )
+            }
         }
     }
 }
