@@ -1,4 +1,4 @@
-syntax = "proto2";
+syntax = "proto3";
 
 option java_multiple_files = true;
 option java_package = "com.baegoon.protocol.rule";
@@ -8,12 +8,12 @@ package com.baegoon.proto.rule;
 import "google/protobuf/descriptor.proto";
 
 extend google.protobuf.FieldOptions {
-    optional int64 max = 50001;
-    optional int64 min = 50002;
-    optional int64 max_length = 50003;
-    optional int64 min_length = 50004;
-    optional string regex = 50005;
-    optional bool email = 50006;
-    optional bool phone = 50007;
-    optional bool numeric = 50008;
+    int64 max = 50001;
+    int64 min = 50002;
+    int64 max_length = 50003;
+    int64 min_length = 50004;
+    string regex = 50005;
+    bool email = 50006;
+    bool phone = 50007;
+    bool numeric = 50008;
 }

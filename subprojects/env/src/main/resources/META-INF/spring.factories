@@ -1,2 +1,4 @@
 org.springframework.boot.env.EnvironmentPostProcessor=\
   com.baegoon.env.EnvironmentPostProcessorImpl
+org.springframework.context.ApplicationListener=\
+  com.baegoon.env.EnvironmentPostProcessorImpl

@@ -1,0 +1,13 @@
+GET http://localhost:8080/members
+
+###
+
+POST http://localhost:8080/members
+Content-Type: application/json
+
+{
+  "teamName": "bae",
+  "memberName": "sangwoo"
+}
+
+###

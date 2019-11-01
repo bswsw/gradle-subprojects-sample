@@ -1,5 +1,6 @@
 dependencies {
-    implementation("org.springframework.boot:spring-boot-starter")
+    api(project(":domain:common"))
+    runtimeOnly("com.h2database:h2")
 }
 
 tasks {

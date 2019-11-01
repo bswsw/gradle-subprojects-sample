@@ -1,5 +1,5 @@
 plugins {
-    id("org.springframework.boot") version "2.1.8.RELEASE" apply false
+    id("org.springframework.boot") version "2.2.0.RELEASE" apply false
 
     val kotlinVersion = "1.3.50"
 
@@ -19,12 +19,17 @@ allprojects {
     }
 }
 
+val querydslVersion by extra { "4.2.1" }
 val grpcStarterVersion by extra { "3.4.3" }
 val protobufVersion by extra { "3.10.0" }
 val grpcVersion by extra { "1.24.0" }
 val ktlintVersion by extra { "0.35.0" }
 
 subprojects {
+    if (this.childProjects.isNotEmpty()) {
+        return@subprojects
+    }
+
     apply {
         plugin("io.spring.dependency-management")
         plugin("org.springframework.boot")
@@ -43,15 +48,12 @@ subprojects {
     val ktlintDependency by configurations.creating
 
     dependencies {
-        implementation("org.springframework.boot:spring-boot-starter")
         compileOnly("org.springframework.boot:spring-boot-configuration-processor")
         kapt("org.springframework.boot:spring-boot-configuration-processor")
 
         implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
         implementation(kotlin("reflect"))
         implementation(kotlin("stdlib-jdk8"))
-
-        testImplementation("org.springframework.boot:spring-boot-starter-test")
 
         ktlintDependency("com.pinterest:ktlint:$ktlintVersion")
     }

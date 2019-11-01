@@ -3,6 +3,7 @@ package com.baegoon.api.controller
 import com.baegoon.proto.greeting.GreetingGrpc
 import com.baegoon.proto.greeting.GreetingRequest
 import io.grpc.ManagedChannelBuilder
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping

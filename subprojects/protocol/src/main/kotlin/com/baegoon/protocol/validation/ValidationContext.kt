@@ -30,11 +30,11 @@ object ValidationContext {
         ),
         Rule.maxLength.descriptor to ValidationHolder(
             validator = MaxLengthValidator(),
-            errorMessage = "$CONDITION_TAG 이상 입력해 주시기 바랍니다."
+            errorMessage = "$CONDITION_TAG 이하로 입력해 주시기 바랍니다."
         ),
         Rule.minLength.descriptor to ValidationHolder(
             validator = MinLengthValidator(),
-            errorMessage = "$CONDITION_TAG 이하로 입력해 주시기 바랍니다."
+            errorMessage = "$CONDITION_TAG 이상으로 입력해 주시기 바랍니다."
         ),
         Rule.regex.descriptor to ValidationHolder(
             validator = RegexValidator(),

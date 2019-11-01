@@ -1,9 +1,9 @@
 package com.baegoon.api.controller
 
 import com.baegoon.api.dto.TeamRequest
-import com.baegoon.domain.team.Team
-import com.baegoon.domain.team.TeamRepository
-import org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo
+import com.baegoon.domain.main.domain.team.Team
+import com.baegoon.domain.main.domain.team.TeamRepository
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable

@@ -1,38 +1,59 @@
 package com.baegoon.env
 
 import org.springframework.boot.SpringApplication
+import org.springframework.boot.context.config.ConfigFileApplicationListener
+import org.springframework.boot.context.event.ApplicationEnvironmentPreparedEvent
+import org.springframework.boot.context.event.ApplicationPreparedEvent
 import org.springframework.boot.env.EnvironmentPostProcessor
 import org.springframework.boot.env.YamlPropertySourceLoader
 import org.springframework.boot.logging.DeferredLog
 import org.springframework.context.ApplicationEvent
-import org.springframework.context.ApplicationListener
+import org.springframework.context.event.SmartApplicationListener
+import org.springframework.core.Ordered
 import org.springframework.core.env.ConfigurableEnvironment
 import org.springframework.core.env.PropertySource
-import org.springframework.core.io.ClassPathResource
+import org.springframework.core.io.Resource
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver
+import org.springframework.stereotype.Component
 
-class EnvironmentPostProcessorImpl : EnvironmentPostProcessor, ApplicationListener<ApplicationEvent> {
+@Component
+class EnvironmentPostProcessorImpl : EnvironmentPostProcessor, SmartApplicationListener, Ordered {
 
     private val log = DeferredLog()
-
-    private val moduleNames = arrayOf("domain")
-
     private val ymlLoader = YamlPropertySourceLoader()
 
     override fun postProcessEnvironment(environment: ConfigurableEnvironment, application: SpringApplication) {
-        this.moduleNames.forEach {
-            this.loadYml(it)?.let { propertySource ->
-                log.info("propertySource : $propertySource")
-                environment.propertySources.addLast(propertySource)
+        val loader = PathMatchingResourcePatternResolver()
+        val resources = loader.getResources("classpath*:application-*.yml")
+
+        resources.forEachIndexed { idx, it ->
+            this.loadYml(it)?.let {
+                this.addProperties(environment, it)
+                log.info("Loading Property[$idx] : ${it.name}")
             }
         }
     }
 
     override fun onApplicationEvent(event: ApplicationEvent) {
-        log.switchTo(EnvironmentPostProcessorImpl::class.java)
+        if (event is ApplicationPreparedEvent) {
+            log.switchTo(EnvironmentPostProcessorImpl::class.java)
+        }
     }
 
-    private fun loadYml(moduleName: String): PropertySource<out Any>? {
-        val resource = ClassPathResource("application-$moduleName.yml")
+    override fun supportsEventType(eventType: Class<out ApplicationEvent>): Boolean {
+        return ApplicationEnvironmentPreparedEvent::class.java.isAssignableFrom(eventType)
+            || ApplicationPreparedEvent::class.java.isAssignableFrom(eventType)
+    }
+
+    private fun loadYml(resource: Resource): PropertySource<out Any>? {
         return this.ymlLoader.load(resource.filename, resource)[0]
+    }
+
+    private fun addProperties(environment: ConfigurableEnvironment, propertySource: PropertySource<out Any>) {
+        environment.propertySources.addLast(propertySource)
+    }
+
+    override fun getOrder(): Int {
+        return ConfigFileApplicationListener.DEFAULT_ORDER - 1
     }
 }
