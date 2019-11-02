@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.baegoon.proto.greeter";
+option java_outer_classname = "GreeterProto";
+
+package com.baegoon.proto.greeter;
+
+message GreeterRequest {
+    string name = 1;
+}
+
+message GreeterResponse {
+    string hello = 1;
+}
+
+service Greeter {
+    rpc greeting (GreeterRequest) returns (GreeterResponse);
+}

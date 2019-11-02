@@ -9,7 +9,6 @@ import org.springframework.boot.env.YamlPropertySourceLoader
 import org.springframework.boot.logging.DeferredLog
 import org.springframework.context.ApplicationEvent
 import org.springframework.context.event.SmartApplicationListener
-import org.springframework.core.Ordered
 import org.springframework.core.env.ConfigurableEnvironment
 import org.springframework.core.env.PropertySource
 import org.springframework.core.io.Resource
@@ -17,7 +16,7 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver
 import org.springframework.stereotype.Component
 
 @Component
-class EnvironmentPostProcessorImpl : EnvironmentPostProcessor, SmartApplicationListener, Ordered {
+class EnvironmentPostProcessorImpl : EnvironmentPostProcessor, SmartApplicationListener {
 
     private val log = DeferredLog()
     private val ymlLoader = YamlPropertySourceLoader()
@@ -41,8 +40,8 @@ class EnvironmentPostProcessorImpl : EnvironmentPostProcessor, SmartApplicationL
     }
 
     override fun supportsEventType(eventType: Class<out ApplicationEvent>): Boolean {
-        return ApplicationEnvironmentPreparedEvent::class.java.isAssignableFrom(eventType)
-            || ApplicationPreparedEvent::class.java.isAssignableFrom(eventType)
+        return ApplicationEnvironmentPreparedEvent::class.java.isAssignableFrom(eventType) ||
+            ApplicationPreparedEvent::class.java.isAssignableFrom(eventType)
     }
 
     private fun loadYml(resource: Resource): PropertySource<out Any>? {

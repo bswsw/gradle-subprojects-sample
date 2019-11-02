@@ -6,14 +6,14 @@ pluginManagement {
 rootProject.name = "gradle-subprojects-sample"
 
 include(
+    "app:api",
+    "app:grpc",
     "domain:core",
     "domain:main",
     "domain:sub",
     "domain:common",
     "protocol",
-    "env",
-    "grpc-server",
-    "api-server"
+    "env"
 )
 
 rootProject.children.forEach { group ->
