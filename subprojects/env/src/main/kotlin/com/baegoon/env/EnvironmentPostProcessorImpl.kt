@@ -28,6 +28,7 @@ class EnvironmentPostProcessorImpl : EnvironmentPostProcessor, SmartApplicationL
         resources.forEachIndexed { idx, it ->
             this.loadYml(it)?.let {
                 this.addProperties(environment, it)
+                println("Loading Property[$idx] : ${it.name}")
                 log.info("Loading Property[$idx] : ${it.name}")
             }
         }

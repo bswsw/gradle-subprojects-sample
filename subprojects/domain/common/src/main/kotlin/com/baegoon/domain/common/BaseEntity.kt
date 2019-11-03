@@ -18,7 +18,7 @@ abstract class BaseEntity : Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long? = null
+    var id: Long? = null
 
     @CreatedDate
     @Column(nullable = false, updatable = false)
