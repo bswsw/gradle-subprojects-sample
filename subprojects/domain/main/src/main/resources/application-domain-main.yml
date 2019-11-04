@@ -1,10 +1,10 @@
 main-jpa:
   datasource:
-    driver-class-name: org.h2.Driver
-    url: jdbc:h2:mem:maindb;MODE=MySQL;DB_CLOSE_DELAY=-1
-    username: sa
-    password:
-  dialect: org.hibernate.dialect.H2Dialect
-  persistence-unit: main
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/maindb?useSSL=false
+    username: root
+    password: password
+  dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+  persistence-unit: maindb
   entity-package: com.baegoon.domain.main
   ddl-auto: create

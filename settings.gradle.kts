@@ -16,12 +16,13 @@ include(
     "env"
 )
 
-rootProject.children.forEach { group ->
-    println("project group : ${group.name}")
-    group.projectDir = file("subprojects/${group.name}")
+makeProjectDir(rootProject, "subprojects")
 
-    group.children.forEach { project ->
-        println("${group.name} -> ${project.name}")
-        project.projectDir = file("subprojects/${group.name}/${project.name}")
+fun makeProjectDir(project: ProjectDescriptor, group: String) {
+    project.children.forEach {
+        println("$group -> ${it.name}")
+
+        it.projectDir = file("$group/${it.name}")
+        makeProjectDir(it, "$group/${it.name}")
     }
 }

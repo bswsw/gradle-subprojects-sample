@@ -66,7 +66,7 @@ subprojects {
             description = "Check Kotlin code style."
         }
 
-        val ktlintFormat by registering(JavaExec::class) {
+        register<JavaExec>("ktlintFormat") {
             classpath = ktlintDependency
             main = "com.pinterest.ktlint.Main"
             args = listOf("-F", "src/**/*.kt")
