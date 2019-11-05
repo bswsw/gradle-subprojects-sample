@@ -1,7 +1,7 @@
 package com.baegoon.app.grpc.service
 
 import com.baegoon.domain.main.domain.member.MemberRegisterService
-import com.baegoon.domain.main.member.MemberType
+import com.baegoon.domain.main.domain.member.MemberType
 import com.baegoon.proto.member.MemberGrpc
 import com.baegoon.proto.member.MemberRegisterRequestProto
 import com.baegoon.proto.member.MemberRegisterResponseProto

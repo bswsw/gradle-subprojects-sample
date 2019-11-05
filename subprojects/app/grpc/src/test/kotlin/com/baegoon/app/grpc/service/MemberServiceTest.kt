@@ -3,7 +3,7 @@ package com.baegoon.app.grpc.service
 import com.baegoon.domain.main.domain.member.Member
 import com.baegoon.domain.main.domain.member.MemberRegisterService
 import com.baegoon.domain.main.domain.team.Team
-import com.baegoon.domain.main.member.MemberType
+import com.baegoon.domain.main.domain.member.MemberType
 import com.baegoon.proto.member.Address
 import com.baegoon.proto.member.MemberGrpc
 import com.baegoon.proto.member.MemberRegisterRequestProto

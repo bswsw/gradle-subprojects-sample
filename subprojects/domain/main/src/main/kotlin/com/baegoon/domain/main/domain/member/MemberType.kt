@@ -1,4 +1,4 @@
-package com.baegoon.domain.main.member
+package com.baegoon.domain.main.domain.member
 
 enum class MemberType {
     BASIC,
