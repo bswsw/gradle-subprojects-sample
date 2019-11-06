@@ -8,7 +8,7 @@ import java.time.LocalDate
 
 @Service
 @Transactional(readOnly = true)
-class MemberRegisterService(
+class MemberService(
     private val teamRepository: TeamRepository,
     private val memberRepository: MemberRepository
 ) {

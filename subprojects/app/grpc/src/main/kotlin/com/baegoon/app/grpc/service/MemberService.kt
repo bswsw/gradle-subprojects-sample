@@ -1,6 +1,6 @@
 package com.baegoon.app.grpc.service
 
-import com.baegoon.domain.main.domain.member.MemberRegisterService
+import com.baegoon.domain.main.domain.member.MemberService
 import com.baegoon.domain.main.domain.member.MemberType
 import com.baegoon.proto.member.MemberGrpc
 import com.baegoon.proto.member.MemberRegisterRequestProto
@@ -13,7 +13,7 @@ import org.lognet.springboot.grpc.GRpcService
 
 @GRpcService(interceptors = [ProtobufValidationInterceptor::class])
 class MemberService(
-    private val memberRegisterService: MemberRegisterService
+    private val memberRegisterService: MemberService
 ) : MemberGrpc.MemberImplBase() {
 
     override fun register(

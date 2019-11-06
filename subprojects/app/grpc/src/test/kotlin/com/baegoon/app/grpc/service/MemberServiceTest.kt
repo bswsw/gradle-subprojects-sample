@@ -1,7 +1,7 @@
 package com.baegoon.app.grpc.service
 
 import com.baegoon.domain.main.domain.member.Member
-import com.baegoon.domain.main.domain.member.MemberRegisterService
+import com.baegoon.domain.main.domain.member.MemberService
 import com.baegoon.domain.main.domain.team.Team
 import com.baegoon.domain.main.domain.member.MemberType
 import com.baegoon.proto.member.Address
@@ -30,7 +30,7 @@ class MemberServiceTest {
     val grpcCleanupRule = GrpcCleanupRule()
 
     @Mock
-    private lateinit var memberRegisterService: MemberRegisterService
+    private lateinit var memberRegisterService: MemberService
 
     @Test
     fun `회원등록 테스트`() {

@@ -16,6 +16,17 @@ import javax.sql.DataSource
 open class BaseJpaConfig {
 
     companion object {
+        // custom
+        const val REPOSITORY_PACKAGE_NAME_PREFIX = "com.baegoon.domain."
+
+        const val JPA_PROPERTIES_SUFFIX = "-jpa"
+        const val JPA_PROPERTIES_BEAN_SUFFIX = "JpaProperties"
+        const val DATA_SOURCE_PROPERTIES_SUFFIX = ".datasource"
+        const val DATA_SOURCE_PROPERTIES_BEAN_SUFFIX = "DataSourceProperties"
+        const val DATA_SOURCE_BEAN_NAME_SUFFIX = "DataSource"
+        const val ENTITY_MANAGER_FACTORY_BEAN_NAME_SUFFIX = "EntityManagerFactory"
+        const val TRANSACTION_MANAGER_BEAN_NAME_SUFFIX = "TransactionManager"
+
         private const val IMPLICIT_KEY = "hibernate.implicit_naming_strategy"
         private const val PHYSICAL_KEY = "hibernate.physical_naming_strategy"
         private const val QUOTED_KEY = "hibernate.globally_quoted_identifiers"
