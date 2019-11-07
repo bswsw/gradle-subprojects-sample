@@ -13,12 +13,13 @@ import javax.persistence.EntityManagerFactory
 import javax.sql.DataSource
 
 @EnableJpaAuditing
-open class BaseJpaConfig {
+abstract class BaseJpaConfig {
 
     companion object {
-        // custom
-        const val REPOSITORY_PACKAGE_NAME_PREFIX = "com.baegoon.domain."
+        const val REPOSITORY_PACKAGE_NAME_PREFIX = "com.baegoon.domain." // custom
+        const val PERSISTENCE_UNIT_NAME_SUFFIX = "db" // custom
 
+        // fixed constants
         const val JPA_PROPERTIES_SUFFIX = "-jpa"
         const val JPA_PROPERTIES_BEAN_SUFFIX = "JpaProperties"
         const val DATA_SOURCE_PROPERTIES_SUFFIX = ".datasource"
@@ -27,6 +28,7 @@ open class BaseJpaConfig {
         const val ENTITY_MANAGER_FACTORY_BEAN_NAME_SUFFIX = "EntityManagerFactory"
         const val TRANSACTION_MANAGER_BEAN_NAME_SUFFIX = "TransactionManager"
 
+        // properties
         private const val IMPLICIT_KEY = "hibernate.implicit_naming_strategy"
         private const val PHYSICAL_KEY = "hibernate.physical_naming_strategy"
         private const val QUOTED_KEY = "hibernate.globally_quoted_identifiers"
@@ -55,7 +57,7 @@ open class BaseJpaConfig {
         return builder
             .dataSource(dataSource)
             .packages(jpaProperties.entityPackage)
-            .persistenceUnit(jpaProperties.persistenceUnit)
+            .persistenceUnit(this.persistenceUnit())
             .properties(
                 mapOf(
                     IMPLICIT_KEY to SpringImplicitNamingStrategy::class.java.name,
@@ -72,4 +74,6 @@ open class BaseJpaConfig {
     open fun transactionManager(entityManagerFactory: EntityManagerFactory): PlatformTransactionManager {
         return JpaTransactionManager(entityManagerFactory)
     }
+
+    abstract fun persistenceUnit(): String
 }

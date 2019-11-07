@@ -5,6 +5,5 @@ sub-jpa:
     username: root
     password: password
   dialect: org.hibernate.dialect.MySQL5InnoDBDialect
-  persistence-unit: subdb
   entity-package: com.baegoon.domain.sub
   ddl-auto: create

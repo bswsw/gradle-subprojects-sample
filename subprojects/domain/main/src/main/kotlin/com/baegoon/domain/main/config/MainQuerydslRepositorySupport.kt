@@ -7,7 +7,7 @@ import kotlin.reflect.KClass
 
 abstract class MainQuerydslRepositorySupport(domainClass: KClass<*>) : QuerydslRepositorySupport(domainClass.java) {
 
-    @PersistenceContext(unitName = "maindb")
+    @PersistenceContext(unitName = MainJpaConfig.PERSISTENCE_UNIT_NAME)
     override fun setEntityManager(entityManager: EntityManager) {
         super.setEntityManager(entityManager)
     }
