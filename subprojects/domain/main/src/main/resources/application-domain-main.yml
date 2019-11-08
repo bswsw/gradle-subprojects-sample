@@ -1,9 +1,9 @@
 main-jpa:
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/maindb?useSSL=false
-    username: root
-    password: password
-  dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+    driver-class-name: ${datasources.maindb.driver-class-name}
+    url: ${datasources.maindb.url}
+    username: ${datasources.maindb.username}
+    password: ${datasources.maindb.password}
+  dialect: ${datasources.maindb.dialect}
   entity-package: com.baegoon.domain.main
   ddl-auto: create

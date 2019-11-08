@@ -12,4 +12,4 @@ class Mouse(
     price: Int,
     val buttons: Int,
     val weight: Int
-): Item(name, price)
+) : Item(name, price)

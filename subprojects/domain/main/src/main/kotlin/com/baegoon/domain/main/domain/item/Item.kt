@@ -12,6 +12,6 @@ import javax.persistence.InheritanceType
 @DiscriminatorColumn(name = "item_type")
 abstract class Item(
     @Column(name = "item_name", nullable = false)
-    var name: String,
-    var price: Int
+    open var name: String,
+    open var price: Int
 ) : BaseEntity()

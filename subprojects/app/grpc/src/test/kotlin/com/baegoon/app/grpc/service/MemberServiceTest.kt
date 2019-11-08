@@ -93,7 +93,7 @@ class MemberServiceTest {
             InProcessServerBuilder
                 .forName(serverName)
                 .directExecutor()
-                .addService(MemberService(this.memberRegisterService))
+                .addService(MemberGRpcService(this.memberRegisterService))
                 .build()
                 .start()
         )

@@ -22,9 +22,9 @@ abstract class BaseEntity : Serializable {
 
     @CreatedDate
     @Column(nullable = false, updatable = false)
-    var createdAt: LocalDateTime? = null
+    open var createdAt: LocalDateTime? = null
 
     @LastModifiedDate
     @Column(nullable = false)
-    var updatedAt: LocalDateTime? = null
+    open var updatedAt: LocalDateTime? = null
 }

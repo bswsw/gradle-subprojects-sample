@@ -1,0 +1,13 @@
+datasources:
+  maindb:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/maindb?useSSL=false
+    username: root
+    password: password
+    dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+  subdb:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/subdb?useSSL=false
+    username: root
+    password: password
+    dialect: org.hibernate.dialect.MySQL5InnoDBDialect

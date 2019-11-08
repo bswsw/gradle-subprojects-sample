@@ -27,14 +27,6 @@ abstract class BaseJpaConfig {
         const val DATA_SOURCE_BEAN_NAME_SUFFIX = "DataSource"
         const val ENTITY_MANAGER_FACTORY_BEAN_NAME_SUFFIX = "EntityManagerFactory"
         const val TRANSACTION_MANAGER_BEAN_NAME_SUFFIX = "TransactionManager"
-
-        // properties
-        private const val IMPLICIT_KEY = "hibernate.implicit_naming_strategy"
-        private const val PHYSICAL_KEY = "hibernate.physical_naming_strategy"
-        private const val QUOTED_KEY = "hibernate.globally_quoted_identifiers"
-        private const val LAZY_LOAD_KEY = "hibernate.enable_lazy_load_no_trans"
-        private const val DIALECT_KEY = "hibernate.dialect"
-        private const val DDL_AUTO_KEY = "hibernate.hbm2ddl.auto"
     }
 
     open fun jpaProperties(): JpaProperties {
@@ -60,12 +52,13 @@ abstract class BaseJpaConfig {
             .persistenceUnit(this.persistenceUnit())
             .properties(
                 mapOf(
-                    IMPLICIT_KEY to SpringImplicitNamingStrategy::class.java.name,
-                    PHYSICAL_KEY to SpringPhysicalNamingStrategy::class.java.name,
-                    QUOTED_KEY to true,
-                    LAZY_LOAD_KEY to true,
-                    DIALECT_KEY to jpaProperties.dialect,
-                    DDL_AUTO_KEY to jpaProperties.ddlAuto
+                    "hibernate.implicit_naming_strategy" to SpringImplicitNamingStrategy::class.java.name,
+                    "hibernate.physical_naming_strategy" to SpringPhysicalNamingStrategy::class.java.name,
+                    "hibernate.globally_quoted_identifiers" to true,
+                    "hibernate.enable_lazy_load_no_trans" to true,
+                    "hibernate.dialect" to jpaProperties.dialect,
+                    "hibernate.hbm2ddl.auto" to jpaProperties.ddlAuto,
+                    "hibernate.discriminator.ignore_explicit_for_joined" to true
                 )
             )
             .build()

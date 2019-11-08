@@ -15,4 +15,4 @@ class Keyboard(
     val keys: Int,
     @Enumerated(EnumType.STRING)
     val connectType: KeyboardConnectType
-): Item(name, price)
+) : Item(name, price)

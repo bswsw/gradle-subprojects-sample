@@ -1,9 +1,9 @@
 sub-jpa:
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/subdb?useSSL=false
-    username: root
-    password: password
-  dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+    driver-class-name: ${datasources.subdb.driver-class-name}
+    url: ${datasources.subdb.url}
+    username: ${datasources.subdb.username}
+    password: ${datasources.subdb.password}
+  dialect: ${datasources.subdb.dialect}
   entity-package: com.baegoon.domain.sub
   ddl-auto: create

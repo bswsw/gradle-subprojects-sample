@@ -20,17 +20,20 @@ class EnvironmentPostProcessorImpl : EnvironmentPostProcessor, SmartApplicationL
 
     private val log = DeferredLog()
     private val ymlLoader = YamlPropertySourceLoader()
+    private val loader = PathMatchingResourcePatternResolver()
+
+    private val resourceLocationPatterns = arrayOf(
+        "file:./config/application-*.yml",
+        "classpath*:application-*.yml"
+    )
+
+    override fun getOrder(): Int {
+        return ConfigFileApplicationListener.DEFAULT_ORDER - 1
+    }
 
     override fun postProcessEnvironment(environment: ConfigurableEnvironment, application: SpringApplication) {
-        val loader = PathMatchingResourcePatternResolver()
-        val resources = loader.getResources("classpath*:application-*.yml")
-
-        resources.forEachIndexed { idx, it ->
-            this.loadYml(it)?.let {
-                this.addProperties(environment, it)
-                println("Loading Property[$idx] : ${it.name}")
-                log.info("Loading Property[$idx] : ${it.name}")
-            }
+        this.resourceLocationPatterns.forEach {
+            this.loadResource(it, environment)
         }
     }
 
@@ -45,15 +48,23 @@ class EnvironmentPostProcessorImpl : EnvironmentPostProcessor, SmartApplicationL
             ApplicationPreparedEvent::class.java.isAssignableFrom(eventType)
     }
 
+    private fun loadResource(resourceLocationPattern: String, environment: ConfigurableEnvironment) {
+        val resources = this.loader.getResources(resourceLocationPattern)
+
+        resources.forEachIndexed { idx, resource ->
+            this.loadYml(resource)?.let {
+                this.addProperties(environment, it)
+                println("Loading Property[$idx] : ${it.name}")
+                log.info("Loading Property[$idx] : ${it.name}")
+            }
+        }
+    }
+
     private fun loadYml(resource: Resource): PropertySource<out Any>? {
         return this.ymlLoader.load(resource.filename, resource)[0]
     }
 
     private fun addProperties(environment: ConfigurableEnvironment, propertySource: PropertySource<out Any>) {
         environment.propertySources.addLast(propertySource)
-    }
-
-    override fun getOrder(): Int {
-        return ConfigFileApplicationListener.DEFAULT_ORDER - 1
     }
 }

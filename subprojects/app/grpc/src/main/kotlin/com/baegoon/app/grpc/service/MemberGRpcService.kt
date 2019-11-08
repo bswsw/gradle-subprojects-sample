@@ -12,7 +12,7 @@ import io.grpc.stub.StreamObserver
 import org.lognet.springboot.grpc.GRpcService
 
 @GRpcService(interceptors = [ProtobufValidationInterceptor::class])
-class MemberService(
+class MemberGRpcService(
     private val memberRegisterService: MemberService
 ) : MemberGrpc.MemberImplBase() {
 
