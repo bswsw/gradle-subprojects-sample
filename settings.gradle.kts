@@ -12,6 +12,7 @@ include(
     "domain:main",
     "domain:sub",
     "domain:common",
+    "client:slack",
     "protocol",
     "env"
 )
