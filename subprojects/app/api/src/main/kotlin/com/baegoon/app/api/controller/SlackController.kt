@@ -16,7 +16,13 @@ class SlackController {
     @GetMapping
     fun send(@RequestParam message: String): ResponseEntity<*> {
         val client = SlackClient(WebHook.SEMICOLON_STUDY)
-        val response = client.send(SimpleMessage(text = message))
+        val response = client.send(
+            SimpleMessage(
+                text = message,
+                channel = "#general",
+                username = "baegoonyyy"
+            )
+        )
 
         return ResponseEntity.ok("${response.statusCode} :: ${response.body}")
     }
