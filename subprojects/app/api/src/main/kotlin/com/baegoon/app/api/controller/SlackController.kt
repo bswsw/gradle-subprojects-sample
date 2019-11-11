@@ -2,7 +2,9 @@ package com.baegoon.app.api.controller
 
 import com.baegoon.client.slack.SlackClient
 import com.baegoon.client.slack.WebHook
-import com.baegoon.client.slack.message.SimpleMessage
+import com.baegoon.client.slack.message.BlockDivider
+import com.baegoon.client.slack.message.BlockMessage
+import com.baegoon.client.slack.message.MarkDownBlock
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
@@ -15,15 +17,22 @@ class SlackController {
 
     @GetMapping
     fun send(@RequestParam message: String): ResponseEntity<*> {
-        val client = SlackClient(WebHook.SEMICOLON_STUDY)
+        val client = SlackClient(WebHook.SEMICOLON)
+
         val response = client.send(
-            SimpleMessage(
+            BlockMessage(
                 text = message,
                 channel = "#general",
-                username = "baegoonyyy"
+                username = "baegoonyyy",
+                iconEmoji = ":kissing_cat:",
+                blocks = arrayOf(
+                    MarkDownBlock("A message *with some bold text* and _some italicized text_."),
+                    BlockDivider(),
+                    MarkDownBlock("A message *with some bold text* and _some italicized text_.")
+                )
             )
         )
 
-        return ResponseEntity.ok("${response.statusCode} :: ${response.body}")
+        return ResponseEntity.ok("${response.statusCode} :: ${response.body} :: ${response.headers}")
     }
 }
