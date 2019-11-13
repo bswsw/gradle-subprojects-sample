@@ -1,7 +1,7 @@
 package com.baegoon.app.api.controller
 
+import com.baegoon.app.api.properties.SlackHookUrlProperties
 import com.baegoon.client.slack.SlackClient
-import com.baegoon.client.slack.WebHook
 import com.baegoon.client.slack.message.BlockDivider
 import com.baegoon.client.slack.message.BlockMessage
 import com.baegoon.client.slack.message.MarkDownBlock
@@ -13,11 +13,13 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/slacks")
-class SlackController {
+class SlackController(
+    private val slackHookUrlProperties: SlackHookUrlProperties
+) {
 
     @GetMapping
     fun send(@RequestParam message: String): ResponseEntity<*> {
-        val client = SlackClient(WebHook.SEMICOLON)
+        val client = SlackClient(this.slackHookUrlProperties.semicolon)
 
         val response = client.send(
             BlockMessage(

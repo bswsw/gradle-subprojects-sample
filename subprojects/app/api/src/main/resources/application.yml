@@ -7,3 +7,7 @@ spring:
     open-in-view: false
     properties:
       hibernate.format_sql: true
+
+slack:
+  hook-url:
+    semicolon: ${hook-url.semicolon}
