@@ -16,6 +16,9 @@ plugins {
 allprojects {
     repositories {
         mavenCentral()
+        maven {
+            url = uri("http://localhost:8081/repository/maven-releases/")
+        }
     }
 }
 
