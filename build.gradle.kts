@@ -17,7 +17,15 @@ allprojects {
     repositories {
         mavenCentral()
         maven {
-            url = uri("http://localhost:8081/repository/maven-releases/")
+            url = uri("s3://the-maven-repository/releases")
+
+            val awsAccessKey: String by project
+            val awsSecretKey: String by project
+
+            credentials(AwsCredentials::class) {
+                accessKey = awsAccessKey
+                secretKey = awsSecretKey
+            }
         }
     }
 }
