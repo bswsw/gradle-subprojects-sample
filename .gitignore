@@ -31,4 +31,6 @@ out/
 ### VS Code ###
 .vscode/
 /LOG_FILE_IS_UNDEFINED/
+
 config/application-slack.yml
+gradle.properties
