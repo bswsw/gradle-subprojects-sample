@@ -1,7 +1,5 @@
 plugins {
-    id("org.springframework.boot") version "2.2.0.RELEASE" apply false
-
-    val kotlinVersion = "1.3.50"
+    val kotlinVersion = "1.3.61"
 
     kotlin("jvm") version kotlinVersion
     kotlin("kapt") version kotlinVersion
@@ -9,6 +7,8 @@ plugins {
     kotlin("plugin.jpa") version kotlinVersion apply false
     kotlin("plugin.noarg") version kotlinVersion apply false
     kotlin("plugin.allopen") version kotlinVersion apply false
+
+    id("org.springframework.boot") version "2.2.2.RELEASE" apply false
 
     idea
 }
@@ -34,7 +34,7 @@ val querydslVersion by extra { "4.2.1" }
 val grpcStarterVersion by extra { "3.4.3" }
 val protobufVersion by extra { "3.10.0" }
 val grpcVersion by extra { "1.24.0" }
-val ktlintVersion by extra { "0.35.0" }
+val ktLintVersion by extra { "0.35.0" }
 
 subprojects {
     if (this.childProjects.isNotEmpty()) {
@@ -50,13 +50,12 @@ subprojects {
         plugin("kotlin-jpa")
         plugin("kotlin-noarg")
         plugin("kotlin-allopen")
-        plugin("idea")
     }
 
     group = "com.baegoon"
     version = "0.0.1-SNAPSHOT"
 
-    val ktlintDependency by configurations.creating
+    val ktLintDependency by configurations.creating
 
     dependencies {
         compileOnly("org.springframework.boot:spring-boot-configuration-processor")
@@ -66,19 +65,19 @@ subprojects {
         implementation(kotlin("reflect"))
         implementation(kotlin("stdlib-jdk8"))
 
-        ktlintDependency("com.pinterest:ktlint:$ktlintVersion")
+        ktLintDependency("com.pinterest:ktlint:$ktLintVersion")
     }
 
     tasks {
-        val ktlint by registering(JavaExec::class) {
-            classpath = ktlintDependency
+        val ktLint by registering(JavaExec::class) {
+            classpath = ktLintDependency
             main = "com.pinterest.ktlint.Main"
             args = listOf("src/**/*.kt")
             description = "Check Kotlin code style."
         }
 
         register<JavaExec>("ktlintFormat") {
-            classpath = ktlintDependency
+            classpath = ktLintDependency
             main = "com.pinterest.ktlint.Main"
             args = listOf("-F", "src/**/*.kt")
             description = "Fix Kotlin code style deviations."
@@ -90,7 +89,7 @@ subprojects {
                 jvmTarget = "1.8"
             }
 
-            dependsOn(ktlint)
+            dependsOn(ktLint)
         }
 
         compileTestKotlin {
