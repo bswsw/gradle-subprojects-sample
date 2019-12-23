@@ -27,6 +27,14 @@ allprojects {
                 secretKey = awsSecretKey
             }
         }
+
+        maven {
+            url = uri("http://localhost:8081/repository/maven-releases")
+            credentials {
+                username = "admin"
+                password = "password"
+            }
+        }
     }
 }
 

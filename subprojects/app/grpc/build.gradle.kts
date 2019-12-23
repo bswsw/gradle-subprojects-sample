@@ -3,12 +3,13 @@ val grpcVersion: String by rootProject.extra
 
 dependencies {
     implementation(project(":env"))
-    implementation(project(":protocol"))
     implementation(project(":domain:main"))
     implementation("io.github.lognet:grpc-spring-boot-starter:$grpcStarterVersion")
 
-    implementation("dev.baesangwoo:my-module:0.0.1")
+    implementation("com.baegoon:protocol-module:1.0.0")
 
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("org.springframework.boot:spring-boot-starter-test") {
+        exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
+    }
     testImplementation("io.grpc:grpc-testing:$grpcVersion")
 }
