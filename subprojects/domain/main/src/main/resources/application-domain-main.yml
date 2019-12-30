@@ -5,5 +5,4 @@ main-jpa:
     username: ${datasources.maindb.username}
     password: ${datasources.maindb.password}
   dialect: ${datasources.maindb.dialect}
-  entity-package: com.baegoon.domain.main
   ddl-auto: create

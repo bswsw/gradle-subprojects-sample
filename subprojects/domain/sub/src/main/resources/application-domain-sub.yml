@@ -5,5 +5,4 @@ sub-jpa:
     username: ${datasources.subdb.username}
     password: ${datasources.subdb.password}
   dialect: ${datasources.subdb.dialect}
-  entity-package: com.baegoon.domain.sub
   ddl-auto: create
