@@ -74,4 +74,8 @@ open class SubJpaConfig : BaseJpaConfig() {
     override fun persistenceUnit(): String {
         return PERSISTENCE_UNIT_NAME
     }
+
+    override fun entityPackage(): String {
+        return REPOSITORY_PACKAGE_NAME
+    }
 }

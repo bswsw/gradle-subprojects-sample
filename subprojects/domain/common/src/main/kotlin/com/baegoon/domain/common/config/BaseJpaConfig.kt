@@ -48,7 +48,7 @@ abstract class BaseJpaConfig {
     ): LocalContainerEntityManagerFactoryBean {
         return builder
             .dataSource(dataSource)
-            .packages(jpaProperties.entityPackage)
+            .packages(this.entityPackage())
             .persistenceUnit(this.persistenceUnit())
             .properties(
                 mapOf(
@@ -69,4 +69,6 @@ abstract class BaseJpaConfig {
     }
 
     abstract fun persistenceUnit(): String
+
+    abstract fun entityPackage(): String
 }
