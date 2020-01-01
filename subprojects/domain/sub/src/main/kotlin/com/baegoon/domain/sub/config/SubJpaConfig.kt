@@ -81,7 +81,3 @@ class SubJpaConfig : BaseJpaConfig() {
         return REPOSITORY_PACKAGE_NAME
     }
 }
-
-fun main() {
-    println(SubJpaConfig.REPOSITORY_PACKAGE_NAME)
-}
