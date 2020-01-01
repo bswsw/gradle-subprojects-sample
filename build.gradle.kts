@@ -38,7 +38,7 @@ allprojects {
     }
 }
 
-val querydslVersion by extra { "4.2.1" }
+val querydslVersion by extra { "4.2.2" }
 val grpcStarterVersion by extra { "3.4.3" }
 val protobufVersion by extra { "3.10.0" }
 val grpcVersion by extra { "1.24.0" }

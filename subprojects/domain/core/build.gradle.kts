@@ -1,6 +1,6 @@
 dependencies {
-    implementation(project(":domain:main"))
-    implementation(project(":domain:sub"))
+    api(project(":domain:main"))
+    api(project(":domain:sub"))
 }
 
 tasks {

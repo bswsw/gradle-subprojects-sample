@@ -3,7 +3,7 @@ val grpcVersion: String by rootProject.extra
 
 dependencies {
     implementation(project(":env"))
-    implementation(project(":domain:main"))
+    implementation(project(":domain:core"))
     implementation("io.github.lognet:grpc-spring-boot-starter:$grpcStarterVersion")
 
     implementation("com.baegoon:protocol-module:1.0.0")
