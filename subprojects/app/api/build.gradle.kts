@@ -1,8 +1,6 @@
 dependencies {
     implementation(project(":env"))
     implementation(project(":domain:core"))
-    implementation(project(":domain:main"))
-    implementation(project(":domain:sub"))
     implementation(project(":client:slack"))
 
     implementation("org.springframework.boot:spring-boot-starter-hateoas") {
