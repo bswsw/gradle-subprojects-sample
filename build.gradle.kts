@@ -5,8 +5,6 @@ plugins {
     kotlin("kapt") version kotlinVersion
     kotlin("plugin.spring") version kotlinVersion apply false
     kotlin("plugin.jpa") version kotlinVersion apply false
-    kotlin("plugin.noarg") version kotlinVersion apply false
-    kotlin("plugin.allopen") version kotlinVersion apply false
 
     id("org.springframework.boot") version "2.2.2.RELEASE" apply false
 
@@ -66,12 +64,15 @@ subprojects {
     val ktLintDependency by configurations.creating
 
     dependencies {
+        implementation(kotlin("reflect"))
+        implementation(kotlin("stdlib-jdk8"))
+        implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+
         compileOnly("org.springframework.boot:spring-boot-configuration-processor")
         kapt("org.springframework.boot:spring-boot-configuration-processor")
 
-        implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-        implementation(kotlin("reflect"))
-        implementation(kotlin("stdlib-jdk8"))
+        testImplementation("org.junit.jupiter:junit-jupiter-api")
+        testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
 
         ktLintDependency("com.pinterest:ktlint:$ktLintVersion")
     }
@@ -105,6 +106,10 @@ subprojects {
                 freeCompilerArgs = listOf("-Xjsr305=strict")
                 jvmTarget = "1.8"
             }
+        }
+
+        test {
+            useJUnitPlatform()
         }
     }
 }
