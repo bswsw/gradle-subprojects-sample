@@ -6,16 +6,22 @@ import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.BDDMockito.given
+import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.boot.test.mock.mockito.MockBean
-import org.springframework.http.MediaType
+import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document
+import org.springframework.restdocs.request.RequestDocumentation.parameterWithName
+import org.springframework.restdocs.request.RequestDocumentation.requestParameters
 import org.springframework.test.context.TestConstructor
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import org.springframework.test.web.servlet.MockMvc
-import org.springframework.test.web.servlet.get
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
 @ExtendWith(SpringExtension::class)
 @WebMvcTest(HelloController::class)
+@AutoConfigureRestDocs
 @TestConstructor(autowireMode = TestConstructor.AutowireMode.ALL)
 internal class HelloControllerTest(
     private val mockMvc: MockMvc
@@ -39,14 +45,16 @@ internal class HelloControllerTest(
             .willReturn(laptop)
 
         // when & then
-        mockMvc.get("/hello") {
-            accept = MediaType.APPLICATION_JSON
-            param("name", laptop.name)
-        }.andExpect {
-            status { isOk }
-            content { contentType("application/json;charset=UTF-8") }
-        }.andDo {
-            print()
-        }
+        mockMvc.perform(get("/hello").param("name", laptop.name))
+            .andExpect(status().isOk)
+            .andDo(print())
+            .andDo(
+                document(
+                    "hello",
+                    requestParameters(
+                        parameterWithName("name").description("이름")
+                    )
+                )
+            )
     }
 }

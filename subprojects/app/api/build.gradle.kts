@@ -1,3 +1,7 @@
+plugins {
+    id("org.asciidoctor.convert") version "2.4.0"
+}
+
 dependencies {
     implementation(project(":env"))
     implementation(project(":domain:core"))
@@ -10,7 +14,29 @@ dependencies {
         exclude(group = "io.undertow", module = "undertow-websockets-jsr")
     }
 
+    asciidoctor("org.springframework.restdocs:spring-restdocs-asciidoctor")
+    testImplementation("org.springframework.restdocs:spring-restdocs-mockmvc")
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
+    }
+}
+
+val snippetDir = file("build/generated-snippets")
+
+tasks {
+    test {
+        outputs.dir(snippetDir)
+    }
+
+    asciidoctor {
+        inputs.dir(snippetDir)
+        dependsOn(test)
+    }
+
+    bootJar {
+        dependsOn(asciidoctor)
+        from("${asciidoctor.get().outputDir}/html") {
+            into("static/docs")
+        }
     }
 }

@@ -1,0 +1,34 @@
+= 서버 상태 체크 API
+Socar Baegoon;
+:snippets: ../../../build/generated-snippets
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 1
+:sectlinks:
+
+=== 설명
+서버 상태 체크 API
+
+=== 서버 상태 체크
+
+==== Request
+
+*CURL:*
+
+include::{snippets}/hello/curl-request.adoc[]
+
+*Request HTTP Example:*
+
+include::{snippets}/hello/http-request.adoc[]
+
+==== Response
+
+*Response Body:*
+
+include::{snippets}/hello/response-body.adoc[]
+
+*Response HTTP Example:*
+
+include::{snippets}/hello/http-response.adoc[]

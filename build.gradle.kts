@@ -48,14 +48,13 @@ subprojects {
     }
 
     apply {
-        plugin("io.spring.dependency-management")
-        plugin("org.springframework.boot")
         plugin("kotlin")
         plugin("kotlin-kapt")
         plugin("kotlin-spring")
         plugin("kotlin-jpa")
-        plugin("kotlin-noarg")
-        plugin("kotlin-allopen")
+
+        plugin("org.springframework.boot")
+        plugin("io.spring.dependency-management")
     }
 
     group = "com.baegoon"
