@@ -3,7 +3,7 @@ plugins {
 }
 
 dependencies {
-    implementation(project(":env"))
+    implementation(project(":auto-env"))
     implementation(project(":domain:core"))
     implementation(project(":client:slack"))
 

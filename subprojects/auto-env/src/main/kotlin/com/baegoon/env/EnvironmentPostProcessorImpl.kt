@@ -27,14 +27,15 @@ class EnvironmentPostProcessorImpl : EnvironmentPostProcessor, SmartApplicationL
         "classpath*:application-*.yml"
     )
 
+    private val excludeResources = arrayOf(
+        "application.yml",
+        "application-dev.yml",
+        "application-stg.yml",
+        "application-prod.yml"
+    )
+
     override fun getOrder(): Int {
         return ConfigFileApplicationListener.DEFAULT_ORDER - 1
-    }
-
-    override fun postProcessEnvironment(environment: ConfigurableEnvironment, application: SpringApplication) {
-        this.resourceLocationPatterns.forEach {
-            this.loadResource(it, environment)
-        }
     }
 
     override fun onApplicationEvent(event: ApplicationEvent) {
@@ -48,20 +49,30 @@ class EnvironmentPostProcessorImpl : EnvironmentPostProcessor, SmartApplicationL
             ApplicationPreparedEvent::class.java.isAssignableFrom(eventType)
     }
 
+    override fun postProcessEnvironment(environment: ConfigurableEnvironment, application: SpringApplication) {
+        this.resourceLocationPatterns.forEach {
+            this.loadResource(it, environment)
+        }
+    }
+
     private fun loadResource(resourceLocationPattern: String, environment: ConfigurableEnvironment) {
         val resources = this.loader.getResources(resourceLocationPattern)
 
-        resources.forEachIndexed { idx, resource ->
+        resources.forEach { resource ->
+            if (this.excludeResources.contains(resource.filename)) {
+                return@forEach
+            }
+
             this.loadYml(resource)?.let {
                 this.addProperties(environment, it)
-                println("Loading Property[$idx] : ${it.name}")
-                log.info("Loading Property[$idx] : ${it.name}")
+                println("Loading Property : ${it.name}")
+                log.info("Loading Property : ${it.name}")
             }
         }
     }
 
     private fun loadYml(resource: Resource): PropertySource<out Any>? {
-        return this.ymlLoader.load(resource.filename, resource)[0]
+        return this.ymlLoader.load(resource.filename, resource).getOrNull(0)
     }
 
     private fun addProperties(environment: ConfigurableEnvironment, propertySource: PropertySource<out Any>) {

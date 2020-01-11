@@ -13,7 +13,7 @@ include(
     "domain:sub",
     "domain:common",
     "client:slack",
-    "env"
+    "auto-env"
 )
 
 makeProjectDir(rootProject, "subprojects")
